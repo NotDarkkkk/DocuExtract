@@ -28,7 +28,7 @@ This is a Nuxt.js application that uses Google Vertex AI's Gemini 2.0 flash mode
    ```bash
    GOOGLE_CLOUD_PROJECT=your-google-project-id
    LOCATION=your-model-region
-   GOOGLE_APPLICATION_CREDENTIALS="path-to-api-key.json"
+   GOOGLE_APPLICATION_CREDENTIALS=path-to-api-key.json
    ```
 
 3. **Run the server**:
