@@ -47,7 +47,9 @@
           </span>
         </div>
       </div>
-  
+      <p v-if="!file && !sessionId" class="text-center text-lg text-red-300 bg-gray-800 p-3 rounded mb-4">
+        🚨 Please upload a file first to begin asking questions or generating MCQs.
+      </p>
       <section class="p-6 bg-gray-900 border-t border-gray-800 sticky bottom-0 left-0 right-0 z-10">
         <form @submit.prevent="handleSubmit" class="flex gap-4">
           <label
@@ -83,15 +85,29 @@
           />
           <button
             type="submit"
-            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+            :class="[
+              'px-4 py-2 rounded text-white transition',
+              (loading || (!file && !sessionId))
+                ? 'bg-gray-700 cursor-not-allowed'
+                : 'bg-blue-600 hover:bg-blue-700'
+            ]"
             :disabled="loading || (!file && !sessionId)"
-          >{{ loading ? '...' : 'Send' }}</button>
+          >
+            {{ loading ? '...' : 'Send' }}
+          </button>
           <button
             type="button"
             @click="generateMCQ"
-            class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded"
+            :class="[
+              'px-4 py-2 rounded text-white transition',
+              !sessionId
+                ? 'bg-gray-700 cursor-not-allowed'
+                : 'bg-purple-600 hover:bg-purple-700'
+            ]"
             :disabled="!sessionId"
-          >MCQ</button>
+          >
+            MCQ
+          </button>
           <div class="relative">
             <label class="text-sm text-gray-400 block mb-1">Questions</label>
             <select
@@ -133,9 +149,16 @@
     }, 700)
   }
 
+  // Use this if you want to persist the session ID and let the model keep history
+  // onMounted(() => {
+  //   history.value = JSON.parse(localStorage.getItem('docChatHistory') || '[]')
+  //   sessionId.value = localStorage.getItem('docChatSessionId')
+  // })
+
   onMounted(() => {
-    history.value = JSON.parse(localStorage.getItem('docChatHistory') || '[]')
-    sessionId.value = localStorage.getItem('docChatSessionId')
+    localStorage.removeItem('docChatSessionId')
+    sessionId.value = null
+    history.value = []
   })
 
   watch(history, () => {
