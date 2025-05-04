@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     return { error: 'Missing query or session ID.' }
   }
 
-  const session = sessions.get(sessionId)
+  const session = sessions.get(sessionId) as { mimeType: string; base64: string } | undefined
   if (!session) {
     return { error: 'Invalid or expired session ID.' }
   }
@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
   const filePart = {
     inlineData: {
       mimeType: session.mimeType,
-      data: session.base64,
+      data: session?.base64 || '',
     },
   }
 

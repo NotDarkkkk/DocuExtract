@@ -34,14 +34,24 @@ export default defineEventHandler(async (event) => {
     },
   }
 
+  const instructions = "You are helping and using data only from the documents and when necessary provide pages or locations"
+
   const result = await generativeModel.generateContent({
     contents: [
       {
         role: 'user',
-        parts: [filePart, { text: query }],
+        parts: [{ text: instructions }],
+      },
+      {
+        role: 'user',
+        parts: [
+          filePart,
+          { text: query },
+        ],
       },
     ],
   })
+  
 
   const answer =
     result.response?.candidates?.[0]?.content?.parts?.[0]?.text || 'No answer generated.'
