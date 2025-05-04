@@ -1,75 +1,38 @@
-# Nuxt Minimal Starter
+# Gemini Document Q&A API
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This is a Nuxt.js application that uses Google Vertex AI's Gemini 2.0 flash model to process documents and answer user queries. It supports uploading a file, entering a query, and making quizzes based on the provided document.
+
+## Features
+
+- Answer questions about the uploaded document
+- Make quizzes about the given material
+- Point out where the material is from in the document
+
+## Technologies Used
+
+- [Google Vertex AI API](https://cloud.google.com/vertex-ai)
+- `gemini-2.0-flash-001`
 
 ## Setup
 
-Make sure to install dependencies:
+1. **Install dependencies**:
 
-```bash
-# npm
-npm install
+   ```bash
+   npm install
+   ```
 
-# pnpm
-pnpm install
+2. **Set environment variables**:
 
-# yarn
-yarn install
+   Create a `.env` file with:
 
-# bun
-bun install
-```
+   ```bash
+   GOOGLE_CLOUD_PROJECT=your-google-project-id
+   LOCATION=your-model-region
+   GOOGLE_APPLICATION_CREDENTIALS="path-to-api-key.json"
+   ```
 
-## Development Server
+3. **Run the server**:
 
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+   ```bash
+   npm run dev
+   ```
