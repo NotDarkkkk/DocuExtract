@@ -1,4 +1,4 @@
-# Gemini Document Q&A API
+# Study assistant
 
 This is a Nuxt.js application that uses Google Vertex AI's Gemini 2.0 flash model to process documents and answer user queries. It supports uploading a file, entering a query, and making quizzes based on the provided document.
 
