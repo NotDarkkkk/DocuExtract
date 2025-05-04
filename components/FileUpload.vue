@@ -35,7 +35,7 @@
             <p class="mt-2 text-m text-blue-500"><strong>Answer:</strong></p>
             <div class="markdown-content" v-html="parseMarkdown(item.answer)"></div>
           </div>
-  
+          
           <MCQDisplay v-if="item.mcqs" :questions="item.mcqs" />
         </div>
         <div v-if="loading" class="text-blue-400 flex items-center gap-2">
@@ -92,6 +92,15 @@
             class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded"
             :disabled="!sessionId"
           >MCQ</button>
+          <div class="relative">
+            <label class="text-sm text-gray-400 block mb-1">Questions</label>
+            <select
+              v-model.number="mcqCount"
+              class="appearance-none bg-gray-800 border border-gray-700 text-white py-1 px-2 pr-6 rounded focus:outline-none"
+            >
+              <option v-for="n in [1,2, 3, 4, 5, 7, 10, 15, 20]" :key="n" :value="n">{{ n }}</option>
+            </select>
+          </div>
         </form>
       </section>
     </div>
@@ -112,6 +121,7 @@
   const loading = ref(false)
   const sessionId = ref(null)
   const errorMessage = ref('')
+  const mcqCount = ref(3)
   
   const showCover = ref(true)
   const coverVisible = ref(true)
@@ -222,18 +232,12 @@
     loading.value = true
     try {
       const res = await withTimeout(
-        axios.post('/api/generate-mcq', { sessionId: sessionId.value })
+        axios.post('/api/generate-mcq', {
+          sessionId: sessionId.value,
+          count: mcqCount.value,
+          context: query.value.trim() || null,
+        })
       )
-
-      if (typeof res.data === 'string') {
-        try {
-          res.data = JSON.parse(res.data)
-        } catch (error) {
-          console.error('Error parsing MCQs:', error)
-          showError('Error parsing MCQs.')
-          return
-        }
-      }
 
       if (Array.isArray(res.data)) {
         history.value.push({ mcqs: res.data })
@@ -247,6 +251,7 @@
       loading.value = false
     }
   }
+
 
   const parseMarkdown = (markdownText) => {
     if (!markdownText) return ''

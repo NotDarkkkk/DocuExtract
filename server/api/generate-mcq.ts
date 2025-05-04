@@ -30,16 +30,21 @@ export default defineEventHandler(async (event) => {
     },
   }
 
-  const prompt = `
-Based only on the content of this document, generate 3 multiple choice questions.
-Each should have 4 options (A–D), a correct answer key, and a brief explanation with an exact quote or line from the document, please also provide the page and the context.
-Format the response as an array of JSON objects, where each object contains:
-- "question"
-- "options" (object with keys A, B, C, D)
-- "correct" (string A/B/C/D)
-- "explanation"
-Return only the JSON array, nothing else.
-`
+  const questionCount = body.count ?? 3
+  const context = body.context?.trim()
+  
+  const prompt = 
+  `
+    Based only on the content of this document${context ? `, and focusing on: "${context}"` : ''}, generate ${questionCount} multiple choice questions.
+    Each should have 4 options (A–D), a correct answer key, and a brief explanation with an exact quote or line from the document, along with the page number and context.
+    Format the response as a JSON array, with each object containing:
+    - "question"
+    - "options" (object with A, B, C, D)
+    - "correct" (A/B/C/D)
+    - "explanation"
+    Return only the JSON array, nothing else.
+  `
+
 
   const result = await generativeModel.generateContent({
     contents: [
