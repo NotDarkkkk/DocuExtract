@@ -34,8 +34,8 @@ export default defineEventHandler(async (event) => {
     },
   }
 
-  const instructions = "You are helping and using data only from the documents and when necessary provide pages or locations"
-
+  const instructions = `You are an intelligent document parser with the goal of assisting in learning. Your goal is to extract structured information from various documents (like books, lecture notes, handwritten notes, etc.). 
+                        Return information with localized text positions (if possible).`
   const result = await generativeModel.generateContent({
     contents: [
       {
@@ -55,7 +55,6 @@ export default defineEventHandler(async (event) => {
 
   const answer =
     result.response?.candidates?.[0]?.content?.parts?.[0]?.text || 'No answer generated.'
-  console.log(answer);
   const sessionId = generateSessionId()
   sessions.set(sessionId, { base64, mimeType: file.type })
 

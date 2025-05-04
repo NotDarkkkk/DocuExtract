@@ -1,5 +1,25 @@
 <template>
     <div class="min-h-screen flex flex-col bg-gray-950 text-white">
+      <div
+        v-if="showCover"
+        @click="hideCover"
+        class="fixed inset-0 z-50 bg-gray-950 text-white flex flex-col items-center justify-center text-center p-8 transition-opacity duration-700"
+        :class="{ 'opacity-0 pointer-events-none': !coverVisible }"
+      >
+        <h1 class="text-4xl font-bold text-blue-400 mb-4">📘 Study Assistant</h1>
+        <p class="text-lg text-gray-300 max-w-2xl mb-6">
+          Upload class notes, textbooks, or documents, then ask questions or generate quizzes using AI.
+        </p>
+        <div class="bg-gray-900 border border-gray-700 rounded-lg p-6 text-left max-w-xl w-full mb-6">
+          <h2 class="text-xl font-semibold text-blue-300 mb-3">🔍 Features</h2>
+          <ul class="list-disc list-inside text-gray-300 space-y-2">
+            <li>📄 Upload files (PDF, DOCX, TXT, images)</li>
+            <li>❓ Ask contextual questions about your material</li>
+            <li>📝 Auto-generate multiple choice questions</li>
+          </ul>
+        </div>
+        <p class="text-sm text-gray-500 italic">Click anywhere to begin</p>
+      </div>
       <header class="p-6 bg-gray-900 border-b border-gray-800 shadow">
         <h1 class="text-2xl font-bold text-blue-400">Study Assistant</h1>
         <p class="text-gray-400 text-sm">Upload a document, notes, book or similar and ask questions about the material or generate quizzes.</p>
@@ -92,6 +112,16 @@
   const loading = ref(false)
   const sessionId = ref(null)
   const errorMessage = ref('')
+  
+  const showCover = ref(true)
+  const coverVisible = ref(true)
+
+  const hideCover = () => {
+    coverVisible.value = false
+    setTimeout(() => {
+      showCover.value = false
+    }, 700)
+  }
 
   onMounted(() => {
     history.value = JSON.parse(localStorage.getItem('docChatHistory') || '[]')

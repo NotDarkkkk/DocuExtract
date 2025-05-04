@@ -59,7 +59,7 @@ Return only the JSON array, nothing else.
     }
   }
 
-  console.log('Model raw response:', raw)
+  // console.log('Model raw response:', raw)
 
   try {
     const cleanedRaw = raw
